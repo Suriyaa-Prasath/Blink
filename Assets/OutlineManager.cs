@@ -1,57 +1,46 @@
 using UnityEngine;
+using System.Collections;
 
-public class OutlineManager : MonoBehaviour
+public class OutlineController : MonoBehaviour
 {
-    public static OutlineManager Instance { get; private set; }
+    public float activeDuration = 3f;
+    public float inactiveDuration = 12f;
+    private Outline[] outlineObjects;
 
-    public Material outlineMaterial;
-    public float interval = 15f;
-    public float outlineDuration = 3f;
+    // Bright color to interact with the Bloom effect
+    public Color glowColor = new Color(5f, 5f, 0f, 1f); // You can adjust this to your preference
+    public Color normalColor = Color.white;
 
-    private Material[] originalMaterials;
-    private Renderer[] renderers;
-
-    private void Awake()
+    void Start()
     {
-        // Implement Singleton pattern
-        if (Instance == null)
+        outlineObjects = FindObjectsOfType<Outline>();
+        StartCoroutine(ToggleOutline());
+    }
+
+    IEnumerator ToggleOutline()
+    {
+        while (true)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
+            // Enable the glowing outline on all objects
+            SetOutlineState(true, glowColor);
+
+            // Wait for the active duration
+            yield return new WaitForSeconds(activeDuration);
+
+            // Disable the outline or set to a normal outline color
+            SetOutlineState(false, normalColor);
+
+            // Wait for the inactive duration
+            yield return new WaitForSeconds(inactiveDuration);
         }
     }
 
-    private void Start()
+    void SetOutlineState(bool state, Color outlineColor)
     {
-        renderers = FindObjectsOfType<Renderer>();
-        originalMaterials = new Material[renderers.Length];
-
-        for (int i = 0; i < renderers.Length; i++)
+        foreach (Outline outline in outlineObjects)
         {
-            originalMaterials[i] = renderers[i].material;
-        }
-
-        InvokeRepeating("ApplyOutline", interval, interval);
-    }
-
-    private void ApplyOutline()
-    {
-        foreach (var renderer in renderers)
-        {
-            renderer.material = outlineMaterial;
-        }
-        Invoke("RemoveOutline", outlineDuration);
-    }
-
-    private void RemoveOutline()
-    {
-        for (int i = 0; i < renderers.Length; i++)
-        {
-            renderers[i].material = originalMaterials[i];
+            outline.enabled = state;
+            outline.OutlineColor = outlineColor;
         }
     }
 }
