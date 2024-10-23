@@ -17,8 +17,14 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            // Destroy the enemy
-            Destroy(collision.gameObject);
+            // Get the Enemy script
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+
+            if (enemy != null)
+            {
+                // Call the Die method on the enemy
+                enemy.Die();
+            }
 
             // Destroy the bullet
             Destroy(gameObject);
