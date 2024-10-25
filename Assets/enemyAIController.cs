@@ -102,7 +102,7 @@ public class EnemyAiTutorial : MonoBehaviour
         float randomX = Random.Range(-walkPointRange, walkPointRange);
 
         walkPoint = new Vector3(transform.position.x + direction * walkPointRange, transform.position.y, transform.position.z);
-        direction = -direction;
+        //direction = -direction;
 
         if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
             walkPointSet = true;
@@ -115,7 +115,7 @@ public class EnemyAiTutorial : MonoBehaviour
         // Continuously adjust position to maintain clear line of sight to the player
         if (!HasObstacleBetween(transform.position, player.position))
         {
-            Vector3 destination = new Vector3(player.position.x, 0.9331f, player.position.z);
+            Vector3 destination = new Vector3(player.position.x, 0, player.position.z);
             // Move directly towards the player if no obstacle is detected
             agent.SetDestination(destination);
         }

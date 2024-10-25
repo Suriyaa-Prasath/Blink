@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
+using FMODUnity;
 
 [AddComponentMenu("Nokobot/Modern Guns/Simple Shoot")]
 public class SimpleShoot : MonoBehaviour
@@ -21,32 +22,33 @@ public class SimpleShoot : MonoBehaviour
     [Tooltip("Bullet Speed")] [SerializeField] private float shotPower = 500f;
     [Tooltip("Casing Ejection Speed")] [SerializeField] private float ejectPower = 150f;
 
-    public AudioSource source;
-    public AudioClip fireSound;
-    public AudioClip reload;
-    public AudioClip noAmmo;
+   
     public Magazine magazine;
     public XRSocketInteractor socketInteractor;
     public bool hasSlide = true;
+    public EventReference reloadsound;
+    public EventReference noammo;
+    public EventReference shoot;
+    
 
 
     public void AddMagazine(XRBaseInteractable interactable)
     {
         magazine = interactable.GetComponent<Magazine>();
-        source.PlayOneShot(reload);
+        FMODUnity.RuntimeManager.PlayOneShot(reloadsound, transform.position);
         hasSlide = false;
     }
 
     public void RemoveMagazine(XRBaseInteractable interactable)
     {
         magazine = null;
-        source.PlayOneShot(reload);
+        FMODUnity.RuntimeManager.PlayOneShot(reloadsound, transform.position);
     }
 
     public void Slide()
     {
         hasSlide = true;
-        source.PlayOneShot(reload);
+        FMODUnity.RuntimeManager.PlayOneShot(reloadsound ,transform.position) ;
     }
 
     [System.Obsolete]
@@ -78,7 +80,7 @@ public class SimpleShoot : MonoBehaviour
         { gunAnimator.SetTrigger("Fire"); }
         else
         {
-            source.PlayOneShot(noAmmo);
+            FMODUnity.RuntimeManager.PlayOneShot(noammo, transform.position);
         }
         
     }
@@ -88,7 +90,7 @@ public class SimpleShoot : MonoBehaviour
     void Shoot()
     {
         magazine.numberOfBullets--;
-        source.PlayOneShot(fireSound);
+        FMODUnity.RuntimeManager.PlayOneShot(shoot, transform.position);
         if (muzzleFlashPrefab)
         {
             //Create the muzzle flash
