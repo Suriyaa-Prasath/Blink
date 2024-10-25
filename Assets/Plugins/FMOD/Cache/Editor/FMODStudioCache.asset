@@ -52,6 +52,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &-8438800597931094330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/Death
+  m_EditorClassIdentifier: 
+  Path: event:/Death
+  Guid:
+    Data1: -1228434920
+    Data2: 1090591500
+    Data3: 793965186
+    Data4: -580686102
+  Banks:
+  - {fileID: -2133510407158003039}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 5.8
+  Length: 1104
 --- !u!114 &-8383914918229449706
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,10 +697,10 @@ MonoBehaviour:
   Path: ../../FMOD Studio/examples/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638654891185916578
+  lastModified: 638654928568847466
   FileSizes:
   - Name: Desktop
-    Value: 21606784
+    Value: 21619936
   Exists: 1
 --- !u!114 &-2075536162577277061
 MonoBehaviour:
@@ -862,10 +889,10 @@ MonoBehaviour:
   Path: ../../FMOD Studio/examples/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638654891181661336
+  lastModified: 638654928564962687
   FileSizes:
   - Name: Desktop
-    Value: 4160
+    Value: 4196
   Exists: 1
 --- !u!114 &-59588812537515626
 MonoBehaviour:
@@ -882,7 +909,7 @@ MonoBehaviour:
   Path: ../../FMOD Studio/examples/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638654891181621109
+  lastModified: 638654928564941667
   FileSizes:
   - Name: Desktop
     Value: 15592
@@ -944,12 +971,13 @@ MonoBehaviour:
   - {fileID: 387828979472726225}
   - {fileID: -5758362578672563679}
   - {fileID: 2633423457583090841}
+  - {fileID: -8438800597931094330}
   EditorParameters: []
   MasterBanks:
   - {fileID: -59588812537515626}
   StringsBanks:
   - {fileID: -338009170749280255}
-  cacheTime: 638654891185916578
+  cacheTime: 638654928568847466
   cacheVersion: 131620
 --- !u!114 &77660302565191069
 MonoBehaviour:

@@ -5144,7 +5144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 1
+  outlineMode: 0
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
   outlineWidth: 2
   precomputeOutline: 1
@@ -5222,6 +5222,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca61341a1d2e3c4b9cc6006daa70add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  death:
+    Guid:
+      Data1: -1228434920
+      Data2: 1090591500
+      Data3: 793965186
+      Data4: -580686102
+    Path: event:/Death
 --- !u!1001 &1076691226
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5851,6 +5858,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ca61341a1d2e3c4b9cc6006daa70add, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  death:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path: 
 --- !u!82 &1246628570
 AudioSource:
   m_ObjectHideFlags: 0
@@ -7435,36 +7449,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 1937990865}
-  m_MoveSpeed: 1
-  m_EnableStrafe: 1
-  m_EnableFly: 0
-  m_UseGravity: 1
-  m_GravityApplicationMode: 0
-  m_ForwardSource: {fileID: 0}
-  m_LeftHandMoveAction:
+  m_TurnSpeed: 60
+  m_LeftHandTurnAction:
     m_UseReference: 0
     m_Action:
-      m_Name: Left Hand Move
+      m_Name: Left Hand Turn
       m_Type: 0
       m_ExpectedControlType: Vector2
-      m_Id: 84b3fd62-3271-4c83-a7ac-5445b93d4464
+      m_Id: fd573a1c-e646-4b74-a4c0-d56fdc5f855e
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
     m_Reference: {fileID: 0}
-  m_RightHandMoveAction:
-    m_UseReference: 0
+  m_RightHandTurnAction:
+    m_UseReference: 1
     m_Action:
-      m_Name: Right Hand Move
+      m_Name: Right Hand Turn
       m_Type: 0
       m_ExpectedControlType: Vector2
-      m_Id: f980b9b2-0431-421d-ba7c-1959667afc75
+      m_Id: 0829d607-5d72-4d5e-9233-aefbd3071516
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -6493913391331992944, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
 --- !u!114 &1937990865
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7551,26 +7561,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 1937990865}
-  m_TurnSpeed: 60
-  m_LeftHandTurnAction:
-    m_UseReference: 0
+  m_MoveSpeed: 3
+  m_EnableStrafe: 1
+  m_EnableFly: 0
+  m_UseGravity: 1
+  m_GravityApplicationMode: 0
+  m_ForwardSource: {fileID: 1937990862}
+  m_LeftHandMoveAction:
+    m_UseReference: 1
     m_Action:
-      m_Name: Left Hand Turn
+      m_Name: Left Hand Move
       m_Type: 0
       m_ExpectedControlType: Vector2
-      m_Id: 40b9cf30-b333-4745-9f88-b47e6ddc58ad
+      m_Id: d6882dce-54e0-4df9-8626-31750bb313ee
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
-  m_RightHandTurnAction:
+    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
+  m_RightHandMoveAction:
     m_UseReference: 0
     m_Action:
-      m_Name: Right Hand Turn
+      m_Name: Right Hand Move
       m_Type: 0
       m_ExpectedControlType: Vector2
-      m_Id: 192155a3-86a0-4cd1-9242-635500ab1e80
+      m_Id: b68ad011-2a8f-49b9-b09c-c87433c4e7b7
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -8866,13 +8882,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2122304519}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09cb37e305dce4a429c50569ebb88c7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   activeDuration: 3
-  inactiveDuration: 5
+  inactiveDuration: 3
   glowColor: {r: 1, g: 1, b: 1, a: 1}
   normalColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &2122304521

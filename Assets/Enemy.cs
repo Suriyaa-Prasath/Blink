@@ -1,9 +1,11 @@
+using FMODUnity;
 using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
     private Animator animator; // Reference to the Animator component
+    public EventReference death;
 
     void Start()
     {
@@ -14,6 +16,7 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         animator.SetTrigger("Die"); // Trigger the death animation
+        FMODUnity.RuntimeManager.PlayOneShot(death, transform.position);
         // Optionally disable further interactions
         GetComponent<Collider>().enabled = false;
         GetComponent<EnemyAI>().enabled = false; // Disable AI if applicable
