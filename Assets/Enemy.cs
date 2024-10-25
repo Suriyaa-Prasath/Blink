@@ -1,6 +1,7 @@
 using FMODUnity;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class Enemy : MonoBehaviour
         GetComponent<Collider>().enabled = false;
         GetComponent<EnemyAI>().enabled = false; // Disable AI if applicable
 
+
         // Call the Destroy method after the animation finishes
         StartCoroutine(DestroyAfterAnimation());
     }
@@ -31,6 +33,7 @@ public class Enemy : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
 
         // Destroy the enemy GameObject
-        Destroy(gameObject);
+        
+       // Destroy(gameObject);
     }
 }

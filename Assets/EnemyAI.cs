@@ -1,5 +1,6 @@
 using FMODUnity;  // Import FMOD namespace
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -196,6 +197,7 @@ public class EnemyAI : MonoBehaviour
         animator.SetBool("isRunning", false);
 
         Debug.Log("Player is dead");
+        SceneManager.LoadScene(2);
     }
 
     private void OnDrawGizmos()
