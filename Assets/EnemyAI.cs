@@ -181,7 +181,7 @@ public class EnemyAI : MonoBehaviour
 
     private void PunchPlayer()
     {
-        if (playerHealth != null && isPlayerAlive)
+        if (playerHealth != null &&  isPlayerInSightRange && isPlayerInAttackRange && isPlayerAlive)
         {
             playerHealth.TakeDamage(punchDamage);
             FMODUnity.RuntimeManager.PlayOneShot(punchSound, transform.position);
