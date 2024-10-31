@@ -5,19 +5,23 @@ public class enemy_bullet : MonoBehaviour
     public float speed = 20f;
     public float lifeTime = 2f; // Bullet will destroy itself after this time
     public int damage = 10; // The damage the bullet can deal
-    private Vector3 forward;
+    private Vector3 direction; // The direction the bullet will move
+
     private void Start()
     {
         // Automatically destroy the bullet after 'lifeTime' seconds
         Destroy(gameObject, lifeTime);
+
+        // Calculate the direction of the bullet
+        // Use the direction passed during instantiation
+        direction = transform.forward; // Assuming the bullet is instantiated facing the target
     }
 
     private void Update()
     {
-        // Create a new forward direction based on quaternion rotation
-        Vector3 forward = transform.rotation * Vector3.forward;
-        // Apply movement using the new forward direction
-        transform.Translate(forward * speed * Time.deltaTime, Space.World);
+        // Apply movement using the calculated direction
+        transform.Translate(direction * speed * Time.deltaTime, Space.World);
+
         // Lock the rotation around X and Z axes using quaternion
         Quaternion lockedRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
         transform.rotation = lockedRotation;
@@ -31,9 +35,6 @@ public class enemy_bullet : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // If the bullet hits something, destroy it
-        // Here, you can also deal damage to the object it hits
-        // Example: if (other.CompareTag("Enemy")) { other.GetComponent<Enemy>().TakeDamage(damage); }
-
         Destroy(gameObject);
     }
 }

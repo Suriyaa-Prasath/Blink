@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UIElements;
+
 public class EnemyAiTutorial : MonoBehaviour
 {
     public NavMeshAgent agent;
@@ -9,135 +9,141 @@ public class EnemyAiTutorial : MonoBehaviour
     public float health;
     public Animator animator;
 
+    private bool isPlayerAlive = true;
+    private bool canPunch = true;
+    public float punchCooldown = 1.1f;
+    private PlayerHealth playerHealth;
+    public int meleeDamage = 10;
+
     // Patrolling
-    public Vector3 walkPoint;
+    public float patrolDistance = 10f;
     public Vector3 initialPosition;
-    bool walkPointSet;
-    public float walkPointRange;
-    public int direction = 1;
+    private Vector3 patrolTarget;
+    private bool movingRight = true;
+    public bool X = true;
 
     // Attacking
     public float timeBetweenAttacks;
-    bool alreadyAttacked;
-    public GameObject projectile;
-    public Transform firePoint; // The point from which the enemy will shoot
+    private bool alreadyAttacked;
+    public GameObject projectile; // Prefab of the projectile
+    public Transform firePoint; // Position where the bullet is spawned
 
     // States
-    public float sightRange, attackRange;
-    public bool playerInSightRange, playerInAttackRange;
+    public float sightRange, attackRange, meleeRange;
+    private bool playerInSightRange, playerInAttackRange, playerInMeleeRange;
 
     private void Start()
     {
         player = GameObject.Find("Player").transform;
         agent = GetComponent<NavMeshAgent>();
-        this.enabled = true;
 
+        // Freeze rotation on X and Z axes to avoid tilting
         Rigidbody rb = GetComponent<Rigidbody>();
-        initialPosition = transform.position;
-        rb.transform.position = new Vector3(initialPosition.x, 0, initialPosition.z);
         if (rb != null)
         {
-            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezePositionY;
         }
 
         initialPosition = transform.position;
+        SetPatrolTarget();
     }
 
     private void Update()
     {
-        // Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
         playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-        Vector3 distance = transform.position - player.transform.position;
+        playerInMeleeRange = Physics.CheckSphere(transform.position, meleeRange, whatIsPlayer);
 
-
-        if (!playerInSightRange && !playerInAttackRange)
+        if (!playerInSightRange && !playerInAttackRange && !playerInMeleeRange)
         {
-            Patroling();
+            Patrol();
         }
         else if (playerInSightRange && !playerInAttackRange)
         {
-            animator.SetBool("PlayerSighted", true);
-            animator.SetBool("PlayerInAttackRange", false);
             FollowPlayer();
         }
-        else if (playerInAttackRange && playerInSightRange)
+        else if (playerInAttackRange && !playerInMeleeRange)
         {
-            AttackPlayer();
+            AttackPlayer(); // Ranged attack
+        }
+        else if (playerInMeleeRange)
+        {
+            MeleeAttackPlayer(); // Melee attack if in melee range
         }
 
+        // Lock rotation to only allow Y-axis rotation
         transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, 0);
-        Quaternion lockedRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-        transform.rotation = lockedRotation;
-        Vector3 position = transform.position;
-        position.y = 0; // Replace with the desired Y value
-        transform.position = position;
     }
 
-    private void Patroling()
+    private void Patrol()
     {
         animator.SetBool("PlayerSighted", false);
         animator.SetBool("PlayerInAttackRange", false);
-        if (!walkPointSet)
+        animator.SetBool("PlayerMeleeDamage", false);
+
+        if (agent.remainingDistance < 0.5f && !agent.pathPending)
         {
-            SearchWalkPoint();
+            movingRight = !movingRight;
+            SetPatrolTarget();
         }
 
-        else
-        {
-            agent.SetDestination(walkPoint);
-        }
-
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        // Walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
-            walkPointSet = false;
+        agent.SetDestination(patrolTarget);
     }
 
-    private void SearchWalkPoint()
+    private void SetPatrolTarget()
     {
-        // Calculate random point in range
-        float randomZ = Random.Range(-walkPointRange, walkPointRange);
-        float randomX = Random.Range(-walkPointRange, walkPointRange);
+        float direction = movingRight ? 1 : -1;
+        if (X)
+        {
 
-        walkPoint = new Vector3(transform.position.x + direction * walkPointRange, transform.position.y, transform.position.z);
-        //direction = -direction;
-
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
-            walkPointSet = true;
+            patrolTarget = initialPosition + new Vector3(patrolDistance * direction, 0, 0);
+        }
+        else 
+        {
+            patrolTarget = initialPosition + new Vector3(0, 0, patrolDistance * direction);
+        }
     }
 
     private void FollowPlayer()
     {
         animator.SetBool("PlayerSighted", true);
         animator.SetBool("PlayerInAttackRange", false);
-        // Continuously adjust position to maintain clear line of sight to the player
-        if (!HasObstacleBetween(transform.position, player.position))
+        animator.SetBool("PlayerMeleeDamage", false);
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        // Only follow the player if they're outside the attack range
+        if (distanceToPlayer > attackRange)
         {
-            Vector3 destination = new Vector3(player.position.x, 0, player.position.z);
-            // Move directly towards the player if no obstacle is detected
-            agent.SetDestination(destination);
+            if (!HasObstacleBetween(transform.position, player.position))
+            {
+                // Move towards the player if there is no obstacle
+                Vector3 destination = new Vector3(player.position.x, 0, player.position.z);
+                agent.SetDestination(destination);
+            }
+            else
+            {
+                // Find a new position around the player if an obstacle is detected
+                FindNewPositionAroundPlayer();
+            }
         }
         else
         {
-            // Find a new position where there's no obstacle blocking the view
-            FindNewPositionAroundPlayer();
+            // Stop moving when the player is within attack range
+            agent.isStopped = true; // Stop moving when in attack range
         }
     }
 
     private void FindNewPositionAroundPlayer()
     {
-        float searchRadius = 20f; // Radius around the player to search for a new position
-        float angleStep = 15f; // Angle step for finding positions
+        float searchRadius = 20f;
+        float angleStep = 15f;
 
         for (float angle = 0; angle < 360; angle += angleStep)
         {
-            // Calculate a new potential position
             Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
             Vector3 checkPosition = player.position + direction * searchRadius;
 
-            // Check if the position is navigable and has a clear line of sight
             if (NavMesh.SamplePosition(checkPosition, out NavMeshHit hit, 1.0f, NavMesh.AllAreas) &&
                 !HasObstacleBetween(hit.position, player.position))
             {
@@ -151,15 +157,14 @@ public class EnemyAiTutorial : MonoBehaviour
     {
         animator.SetBool("PlayerSighted", false);
         animator.SetBool("PlayerInAttackRange", true);
-        transform.eulerAngles = new Vector3(0, 0, 0);
-        Quaternion lockedRotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
-        transform.rotation = lockedRotation;
-        // Make sure enemy doesn't move
-        agent.SetDestination(transform.position);
+        animator.SetBool("PlayerMeleeDamage", false);
 
-        transform.LookAt(player);
+        // Stop the agent's movement while attacking
+        agent.isStopped = true;
 
-        if (!alreadyAttacked)
+        transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
+
+        if (!alreadyAttacked && !playerInMeleeRange)
         {
             Shoot();
             alreadyAttacked = true;
@@ -169,40 +174,49 @@ public class EnemyAiTutorial : MonoBehaviour
 
     private void Shoot()
     {
-        // Instantiate the projectile at the fire point's position and rotation
-        GameObject bullet = Instantiate(projectile, firePoint.position, firePoint.rotation);
+        // Create a projectile instance at firePoint's position
+        GameObject bullet = Instantiate(projectile, firePoint.position, Quaternion.identity);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
 
-        // Use the firePoint's forward direction for shooting
-        Vector3 direction = new Vector3(firePoint.forward.x, 0, firePoint.forward.z);
+        // Calculate direction from firePoint to player's position
+        Vector3 direction = (new Vector3(player.position.x, firePoint.position.y, player.position.z) - firePoint.position).normalized;
 
-        // Add force to the projectile in the firePoint's forward direction
+        // Apply force in world space towards player
         rb.AddForce(direction * 32f, ForceMode.Impulse);
+    }
+
+    private void MeleeAttackPlayer()
+    {
+        animator.SetBool("PlayerSighted", false);
+        animator.SetBool("PlayerInAttackRange", false);
+        animator.SetBool("PlayerMeleeDamage", true);
+
+        agent.isStopped = true;
+        transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
+
+        if (playerHealth != null && isPlayerAlive)
+        {
+            playerHealth.TakeDamage(meleeDamage);
+            canPunch = false;
+            Invoke(nameof(ResetPunch), punchCooldown);
+        }
     }
 
     private void ResetAttack()
     {
         alreadyAttacked = false;
+        agent.isStopped = false; // Re-enable movement after attack cooldown
     }
 
-    public void TakeDamage(int damage)
+    private void ResetPunch()
     {
-        health -= damage;
-
-        if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
-    }
-
-    private void DestroyEnemy()
-    {
-        Destroy(gameObject);
+        canPunch = true;
     }
 
     private bool HasObstacleBetween(Vector3 start, Vector3 end)
     {
-        // Perform a raycast from the enemy to the player to detect obstacles
         if (Physics.Raycast(start, (end - start).normalized, out RaycastHit hit, Vector3.Distance(start, end), obstacleMask))
         {
-            // Check if the hit object has the Obstacle tag
             if (hit.collider.CompareTag("Obstacle"))
             {
                 Debug.Log("Obstacle detected between enemy and player: " + hit.collider.gameObject.name);
@@ -212,22 +226,18 @@ public class EnemyAiTutorial : MonoBehaviour
         return false;
     }
 
-    private void backToOriginalMode()
-    {
-
-    }
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, sightRange);
+        Gizmos.color = Color.white;
+        Gizmos.DrawWireSphere(transform.position, meleeRange);
+
         if (firePoint != null)
         {
-            // Set the color of the Gizmo line
             Gizmos.color = Color.green;
-
-            // Draw a line from the firePoint in the forward direction
             Gizmos.DrawRay(firePoint.position, firePoint.forward * 5f);
         }
     }
