@@ -9,11 +9,15 @@ public class EnemyAiTutorial : MonoBehaviour
     public float health;
     public Animator animator;
 
+    public bool meleeDamageActive = false;
+    public bool bulletDamageActive = false;
+
     private bool isPlayerAlive = true;
     private bool canPunch = true;
     public float punchCooldown = 1.1f;
     private PlayerHealth playerHealth;
     public int meleeDamage = 10;
+    public int bulletDamage = 20;
 
     // Patrolling
     public float patrolDistance = 10f;
@@ -35,6 +39,7 @@ public class EnemyAiTutorial : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").transform;
+        playerHealth = player.GetComponent<PlayerHealth>();
         agent = GetComponent<NavMeshAgent>();
 
         // Freeze rotation on X and Z axes to avoid tilting
@@ -77,6 +82,9 @@ public class EnemyAiTutorial : MonoBehaviour
 
     private void Patrol()
     {
+        bulletDamageActive = false;
+        meleeDamageActive = false;
+
         animator.SetBool("PlayerSighted", false);
         animator.SetBool("PlayerInAttackRange", false);
         animator.SetBool("PlayerMeleeDamage", false);
@@ -106,6 +114,9 @@ public class EnemyAiTutorial : MonoBehaviour
 
     private void FollowPlayer()
     {
+        bulletDamageActive = false;
+        meleeDamageActive = false;
+
         animator.SetBool("PlayerSighted", true);
         animator.SetBool("PlayerInAttackRange", false);
         animator.SetBool("PlayerMeleeDamage", false);
@@ -159,6 +170,10 @@ public class EnemyAiTutorial : MonoBehaviour
         animator.SetBool("PlayerInAttackRange", true);
         animator.SetBool("PlayerMeleeDamage", false);
 
+        bulletDamageActive = true;
+        meleeDamageActive = false;
+
+
         // Stop the agent's movement while attacking
         agent.isStopped = true;
 
@@ -174,14 +189,14 @@ public class EnemyAiTutorial : MonoBehaviour
 
     private void Shoot()
     {
-        // Create a projectile instance at firePoint's position
-        GameObject bullet = Instantiate(projectile, firePoint.position, Quaternion.identity);
+        // Create a projectile instance at firePoint's position and rotation
+        GameObject bullet = Instantiate(projectile, firePoint.position, firePoint.rotation);
         Rigidbody rb = bullet.GetComponent<Rigidbody>();
 
-        // Calculate direction from firePoint to player's position
-        Vector3 direction = (new Vector3(player.position.x, firePoint.position.y, player.position.z) - firePoint.position).normalized;
+        // Calculate the direction based on the firePoint's rotation
+        Vector3 direction = firePoint.rotation * Vector3.forward;
 
-        // Apply force in world space towards player
+        // Apply force in the local forward direction based on firePoint's rotation
         rb.AddForce(direction * 32f, ForceMode.Impulse);
     }
 
@@ -191,12 +206,15 @@ public class EnemyAiTutorial : MonoBehaviour
         animator.SetBool("PlayerInAttackRange", false);
         animator.SetBool("PlayerMeleeDamage", true);
 
+        bulletDamageActive = false;
+        meleeDamageActive = true;
+
+
         agent.isStopped = true;
         transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
 
         if (playerHealth != null && isPlayerAlive)
         {
-            playerHealth.TakeDamage(meleeDamage);
             canPunch = false;
             Invoke(nameof(ResetPunch), punchCooldown);
         }
@@ -224,6 +242,21 @@ public class EnemyAiTutorial : MonoBehaviour
             }
         }
         return false;
+    }
+
+    private void DealDamage()
+    {
+        Debug.Log(meleeDamageActive); 
+        if (playerHealth != null && bulletDamageActive && !meleeDamageActive && isPlayerAlive)
+        {
+            playerHealth.TakeDamage(bulletDamage);
+            Debug.Log(playerHealth.currentHealth.ToString());
+        }
+        else if (playerHealth != null && !bulletDamageActive && meleeDamageActive && isPlayerAlive)
+        {
+            Debug.Log(playerHealth.currentHealth.ToString());
+            playerHealth.TakeDamage(meleeDamage);
+        }
     }
 
     private void OnDrawGizmosSelected()
