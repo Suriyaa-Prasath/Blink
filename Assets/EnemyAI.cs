@@ -8,15 +8,18 @@ public class EnemyAI : MonoBehaviour
     public float sightRange = 10f;  // Range for detecting the player
     public float attackRange = 2f;  // Range to start attacking the player
     public float speed = 3f;  // Movement speed of the enemy
-    public float footstepInterval = 0.5f;  // Time interval between each footstep sound
-    private float footstepTimer = 0f;  // Timer to track when to play next footstep sound
+    public float footstepInterval = 0.5f;  // Interval between footstep sounds when running
+    public float idleFootstepInterval = 2f; // Interval between footstep sounds when idle
+    private float footstepTimer = 0f;  // Timer for running footsteps
+    private float idleFootstepTimer = 0f;  // Timer for idle footsteps
 
-    // FMOD event reference for enemy footsteps
-    public EventReference footstepSound;
+    // FMOD event references
+    public EventReference footstepSound; // FMOD event for running footstep sound
+    public EventReference idleFootstepSound; // FMOD event for idle footstep sound
     public EventReference punchSound; // FMOD event for punch sound
 
     public float rayDistance = 2f;  // Distance to check for obstacles
-    public float punchDamage = 10f;  // Damage dealt by the enemy's punch
+    public float punchDamage =12f;  // Damage dealt by the enemy's punch
     public LayerMask whatIsPlayer;  // Layer to detect the player
     public float punchCooldown = 1.1f;  // Time between punches in seconds
 
@@ -72,8 +75,9 @@ public class EnemyAI : MonoBehaviour
             PlayerDied();
         }
 
-        // Footstep sound logic when the enemy is running
+        // Play sounds based on the enemy's state
         PlayFootstepSound();
+        PlayIdleFootstepSound();
     }
 
     private void PlayFootstepSound()
@@ -83,9 +87,21 @@ public class EnemyAI : MonoBehaviour
             footstepTimer += Time.deltaTime;
             if (footstepTimer >= footstepInterval)
             {
-                // Play footstep sound using FMOD
                 FMODUnity.RuntimeManager.PlayOneShot(footstepSound, transform.position);
-                footstepTimer = 0f;  // Reset the timer
+                footstepTimer = 0f;  // Reset the footstep timer
+            }
+        }
+    }
+
+    private void PlayIdleFootstepSound()
+    {
+        if (animator.GetBool("isIdle"))  // If the enemy is idle
+        {
+            idleFootstepTimer += Time.deltaTime;
+            if (idleFootstepTimer >= idleFootstepInterval)
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(idleFootstepSound, transform.position);
+                idleFootstepTimer = 0f;  // Reset the idle footstep timer
             }
         }
     }
@@ -112,7 +128,6 @@ public class EnemyAI : MonoBehaviour
 
         if (isObstacleAhead || isObstacleLeft || isObstacleRight)
         {
-            // Detected an obstacle, reroute around it
             Reroute(isObstacleAhead, isObstacleLeft, isObstacleRight);
             return;
         }
@@ -182,7 +197,7 @@ public class EnemyAI : MonoBehaviour
 
     private void PunchPlayer()
     {
-        if (playerHealth != null &&  isPlayerInSightRange && isPlayerInAttackRange && isPlayerAlive)
+        if (playerHealth != null && isPlayerInSightRange && isPlayerInAttackRange && isPlayerAlive)
         {
             playerHealth.TakeDamage(punchDamage);
             FMODUnity.RuntimeManager.PlayOneShot(punchSound, transform.position);

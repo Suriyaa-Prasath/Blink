@@ -1339,18 +1339,18 @@ MonoBehaviour:
   m_PlayAudioClipOnHoverCanceled: 0
   m_AudioClipForOnHoverCanceled: {fileID: 0}
   m_AllowHoverAudioWhileSelecting: 1
-  m_PlayHapticsOnSelectEntered: 0
-  m_HapticSelectEnterIntensity: 0
-  m_HapticSelectEnterDuration: 0
+  m_PlayHapticsOnSelectEntered: 1
+  m_HapticSelectEnterIntensity: 0.3
+  m_HapticSelectEnterDuration: 0.2
   m_PlayHapticsOnSelectExited: 0
   m_HapticSelectExitIntensity: 0
   m_HapticSelectExitDuration: 0
   m_PlayHapticsOnSelectCanceled: 0
   m_HapticSelectCancelIntensity: 0
   m_HapticSelectCancelDuration: 0
-  m_PlayHapticsOnHoverEntered: 0
-  m_HapticHoverEnterIntensity: 0
-  m_HapticHoverEnterDuration: 0
+  m_PlayHapticsOnHoverEntered: 1
+  m_HapticHoverEnterIntensity: 0.2
+  m_HapticHoverEnterDuration: 0.2
   m_PlayHapticsOnHoverExited: 0
   m_HapticHoverExitIntensity: 0
   m_HapticHoverExitDuration: 0
@@ -1728,18 +1728,18 @@ MonoBehaviour:
   m_PlayAudioClipOnHoverCanceled: 0
   m_AudioClipForOnHoverCanceled: {fileID: 0}
   m_AllowHoverAudioWhileSelecting: 1
-  m_PlayHapticsOnSelectEntered: 0
-  m_HapticSelectEnterIntensity: 0
-  m_HapticSelectEnterDuration: 0
+  m_PlayHapticsOnSelectEntered: 1
+  m_HapticSelectEnterIntensity: 0.3
+  m_HapticSelectEnterDuration: 0.2
   m_PlayHapticsOnSelectExited: 0
   m_HapticSelectExitIntensity: 0
   m_HapticSelectExitDuration: 0
   m_PlayHapticsOnSelectCanceled: 0
   m_HapticSelectCancelIntensity: 0
   m_HapticSelectCancelDuration: 0
-  m_PlayHapticsOnHoverEntered: 0
-  m_HapticHoverEnterIntensity: 0
-  m_HapticHoverEnterDuration: 0
+  m_PlayHapticsOnHoverEntered: 1
+  m_HapticHoverEnterIntensity: 0.2
+  m_HapticHoverEnterDuration: 0.2
   m_PlayHapticsOnHoverExited: 0
   m_HapticHoverExitIntensity: 0
   m_HapticHoverExitDuration: 0
@@ -4619,10 +4619,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1937990862}
-  sightRange: 20
+  sightRange: 30
   attackRange: 1.5
   speed: 1
-  footstepInterval: 0.2
+  footstepInterval: 0.4
+  idleFootstepInterval: 2
   footstepSound:
     Guid:
       Data1: 347416895
@@ -4630,15 +4631,22 @@ MonoBehaviour:
       Data3: 47099559
       Data4: -643625871
     Path: event:/Character/Enemy Footsteps
+  idleFootstepSound:
+    Guid:
+      Data1: -73802649
+      Data2: 1323628216
+      Data3: 487510671
+      Data4: 1635535790
+    Path: event:/SFX/Idle
   punchSound:
     Guid:
       Data1: 1002853469
       Data2: 1126034875
       Data3: 1575450007
       Data4: 1611426547
-    Path: event:/Punch
+    Path: event:/SFX/Punch
   rayDistance: 2
-  punchDamage: 10
+  punchDamage: 12
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
@@ -4684,7 +4692,7 @@ MonoBehaviour:
       Data2: 1090591500
       Data3: 793965186
       Data4: -580686102
-    Path: event:/Death
+    Path: event:/SFX/Death
 --- !u!1001 &1076691226
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5022,10 +5030,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1937990862}
-  sightRange: 20
+  sightRange: 30
   attackRange: 1.5
   speed: 1
-  footstepInterval: 0.2
+  footstepInterval: 0.4
+  idleFootstepInterval: 2
   footstepSound:
     Guid:
       Data1: 347416895
@@ -5033,15 +5042,22 @@ MonoBehaviour:
       Data3: 47099559
       Data4: -643625871
     Path: event:/Character/Enemy Footsteps
+  idleFootstepSound:
+    Guid:
+      Data1: -73802649
+      Data2: 1323628216
+      Data3: 487510671
+      Data4: 1635535790
+    Path: event:/SFX/Idle
   punchSound:
     Guid:
       Data1: 1002853469
       Data2: 1126034875
       Data3: 1575450007
       Data4: 1611426547
-    Path: event:/Punch
+    Path: event:/SFX/Punch
   rayDistance: 2
-  punchDamage: 10
+  punchDamage: 12
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 128
@@ -5082,7 +5098,7 @@ MonoBehaviour:
       Data2: 1090591500
       Data3: 793965186
       Data4: -580686102
-    Path: event:/Death
+    Path: event:/SFX/Death
 --- !u!82 &1246628570
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5090,7 +5106,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1246628560}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
@@ -6341,6 +6357,91 @@ Transform:
   - {fileID: 394833386}
   m_Father: {fileID: 1937990862}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1845891046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1845891048}
+  - component: {fileID: 1845891047}
+  - component: {fileID: 1845891049}
+  m_Layer: 0
+  m_Name: Reverb
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1845891047
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845891046}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4.186253, y: 0.30353227, z: 9.908577}
+  m_Center: {x: 1.0590041, y: 0.17080875, z: 0}
+--- !u!4 &1845891048
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845891046}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -6.3, y: 0, z: 0}
+  m_LocalScale: {x: 9.046469, y: 9.046469, z: 9.046469}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1845891049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845891046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollisionTag: Player
+  EventReference:
+    Guid:
+      Data1: -1618879255
+      Data2: 1301549018
+      Data3: -253317207
+      Data4: 1158193665
+    Path: snapshot:/ReverbSound
+  Event: 
+  EventPlayTrigger: 3
+  EventStopTrigger: 4
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  NonRigidbodyVelocity: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 0
+  OverrideMaxDistance: 0
 --- !u!1 &1889502516
 GameObject:
   m_ObjectHideFlags: 0
@@ -6446,7 +6547,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 17.9, y: -0.3}
+  m_AnchoredPosition: {x: 31.7, y: -0.3}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!143 &1937990863
@@ -6643,11 +6744,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb23551acbd14004cbe004663f5f3c37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 60
   currentHealth: 0
-  slider: {fileID: 0}
-  InGameCanvas: {fileID: 0}
-  DeadCanvas: {fileID: 0}
+  heartbeatEventRef:
+    Guid:
+      Data1: 1396393914
+      Data2: 1230110050
+      Data3: -1058733403
+      Data4: -1753071445
+    Path: event:/Character/HeartBeat
+  healthThreshold: 0.4
 --- !u!114 &1937990872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6666,7 +6772,7 @@ MonoBehaviour:
       Data2: 1195472629
       Data3: -2064153176
       Data4: 1900422219
-    Path: event:/Character/Player Footsteps
+    Path: event:/SFX/Player Footsteps
   footstepInterval: 0.4
 --- !u!1 &2017400467 stripped
 GameObject:
@@ -7416,6 +7522,7 @@ GameObject:
   - component: {fileID: 2095569294}
   - component: {fileID: 2095569293}
   - component: {fileID: 2095569297}
+  - component: {fileID: 2095569298}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -7656,6 +7763,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 0}
+--- !u!114 &2095569298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2095569291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89c8d1a545ddd2c4f9a945a3999699fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHead: {fileID: 2095569292}
 --- !u!1 &2122304519
 GameObject:
   m_ObjectHideFlags: 0
@@ -7777,6 +7897,7 @@ GameObject:
   - component: {fileID: 2872250911634342930}
   - component: {fileID: 662358542}
   - component: {fileID: 662358541}
+  - component: {fileID: 2872250911634342931}
   m_Layer: 6
   m_Name: M1911 Handgun_Silver (Shooting) (1)
   m_TagString: Untagged
@@ -7804,6 +7925,20 @@ Transform:
   - {fileID: 221502722}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2872250911634342931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2867417285906408036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc771f2a90bb6f45988d005becd487c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intensity: 0.9
+  duration: 0.3
 --- !u!1 &4278157202972955668
 GameObject:
   m_ObjectHideFlags: 0
@@ -9287,3 +9422,4 @@ SceneRoots:
   - {fileID: 802666397}
   - {fileID: 1246628559}
   - {fileID: 973314876}
+  - {fileID: 1845891048}
