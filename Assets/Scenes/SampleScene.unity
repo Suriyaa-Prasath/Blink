@@ -6615,14 +6615,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_System: {fileID: 1937990865}
-  m_MoveSpeed: 1
+  m_MoveSpeed: 6
   m_EnableStrafe: 1
   m_EnableFly: 0
   m_UseGravity: 1
   m_GravityApplicationMode: 0
-  m_ForwardSource: {fileID: 0}
+  m_ForwardSource: {fileID: 1841625589}
   m_LeftHandMoveAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Left Hand Move
       m_Type: 0
@@ -6632,7 +6632,8 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: 6972639530819350904, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
   m_RightHandMoveAction:
     m_UseReference: 0
     m_Action:
@@ -6658,7 +6659,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Timeout: 10
-  m_XROrigin: {fileID: 0}
+  m_XROrigin: {fileID: 1937990861}
 --- !u!114 &1937990866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6745,7 +6746,7 @@ MonoBehaviour:
       m_Flags: 0
     m_Reference: {fileID: 0}
   m_RightHandTurnAction:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: Right Hand Turn
       m_Type: 0
@@ -6755,7 +6756,8 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -6493913391331992944, guid: c348712bda248c246b8c49b3db54643f,
+      type: 3}
 --- !u!114 &1937990870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7834,7 +7836,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2122304520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7842,7 +7844,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2122304519}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09cb37e305dce4a429c50569ebb88c7d, type: 3}
   m_Name: 
