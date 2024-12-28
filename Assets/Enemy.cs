@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
 {
     private Animator animator; // Reference to the Animator component
     public EventReference death;
+    int c = 0;
 
     void Start()
     {
@@ -14,6 +15,23 @@ public class Enemy : MonoBehaviour
     }
 
     // Method to call when the enemy dies
+    public void PunchDie()
+    {
+        c++;
+        if (c == 3)
+        {
+
+            animator.SetTrigger("Die"); // Trigger the death animation
+            FMODUnity.RuntimeManager.PlayOneShot(death, transform.position);
+            // Optionally disable further interactions
+            GetComponent<Collider>().enabled = false;
+            GetComponent<EnemyAI>().enabled = false; // Disable AI if applicable
+
+
+            // Call the Destroy method after the animation finishes
+            StartCoroutine(DestroyAfterAnimation());
+        }
+    }
     public void Die()
     {
         animator.SetTrigger("Die"); // Trigger the death animation
