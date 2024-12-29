@@ -647,12 +647,12 @@ MonoBehaviour:
   Path: ../../FMOD Studio/examples/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638700413744476733
+  lastModified: 638710875810615441
   FileSizes:
   - Name: Desktop
-    Value: 21696288
+    Value: 21710880
   - Name: HTML5
-    Value: 21695744
+    Value: 21710080
   Exists: 1
 --- !u!114 &-2075536162577277061
 MonoBehaviour:
@@ -924,12 +924,12 @@ MonoBehaviour:
   Path: ../../FMOD Studio/examples/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638700413740281819
+  lastModified: 638710418047764035
   FileSizes:
   - Name: Desktop
-    Value: 4398
+    Value: 4442
   - Name: HTML5
-    Value: 4398
+    Value: 4442
   Exists: 1
 --- !u!114 &-59588812537515626
 MonoBehaviour:
@@ -946,7 +946,7 @@ MonoBehaviour:
   Path: ../../FMOD Studio/examples/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638700413740241471
+  lastModified: 638710418047738945
   FileSizes:
   - Name: Desktop
     Value: 17390
@@ -1015,12 +1015,13 @@ MonoBehaviour:
   - {fileID: -1868525916944366202}
   - {fileID: -941221567455677035}
   - {fileID: 1763347245854480789}
+  - {fileID: 2354919721852122379}
   EditorParameters: []
   MasterBanks:
   - {fileID: -59588812537515626}
   StringsBanks:
   - {fileID: -338009170749280255}
-  cacheTime: 638700413744476733
+  cacheTime: 638710875810615441
   cacheVersion: 131620
 --- !u!114 &77660302565191069
 MonoBehaviour:
@@ -1090,7 +1091,7 @@ MonoBehaviour:
   - {fileID: -2133510407158003039}
   IsStream: 0
   Is3D: 0
-  IsOneShot: 1
+  IsOneShot: 0
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -1147,6 +1148,33 @@ MonoBehaviour:
   IsGlobal: 0
   Labels: []
   Exists: 1
+--- !u!114 &2354919721852122379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Punch 2
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Punch 2
+  Guid:
+    Data1: 63166567
+    Data2: 1154026418
+    Data3: 891282111
+    Data4: 441860965
+  Banks:
+  - {fileID: -2133510407158003039}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 5.8
+  Length: 1152
 --- !u!114 &2708633666948701896
 MonoBehaviour:
   m_ObjectHideFlags: 0
