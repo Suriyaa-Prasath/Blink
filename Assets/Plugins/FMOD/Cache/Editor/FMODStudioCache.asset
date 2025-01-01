@@ -647,12 +647,12 @@ MonoBehaviour:
   Path: ../../FMOD Studio/examples/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638710875810615441
+  lastModified: 638713620020032859
   FileSizes:
   - Name: Desktop
-    Value: 21710880
+    Value: 21726464
   - Name: HTML5
-    Value: 21710080
+    Value: 21725344
   Exists: 1
 --- !u!114 &-2075536162577277061
 MonoBehaviour:
@@ -924,12 +924,12 @@ MonoBehaviour:
   Path: ../../FMOD Studio/examples/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638710418047764035
+  lastModified: 638713620009129703
   FileSizes:
   - Name: Desktop
-    Value: 4442
+    Value: 4480
   - Name: HTML5
-    Value: 4442
+    Value: 4480
   Exists: 1
 --- !u!114 &-59588812537515626
 MonoBehaviour:
@@ -946,7 +946,7 @@ MonoBehaviour:
   Path: ../../FMOD Studio/examples/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638710418047738945
+  lastModified: 638713620009053090
   FileSizes:
   - Name: Desktop
     Value: 17390
@@ -1016,12 +1016,13 @@ MonoBehaviour:
   - {fileID: -941221567455677035}
   - {fileID: 1763347245854480789}
   - {fileID: 2354919721852122379}
+  - {fileID: 5855064428227464839}
   EditorParameters: []
   MasterBanks:
   - {fileID: -59588812537515626}
   StringsBanks:
   - {fileID: -338009170749280255}
-  cacheTime: 638710875810615441
+  cacheTime: 638713620020032859
   cacheVersion: 131620
 --- !u!114 &77660302565191069
 MonoBehaviour:
@@ -1593,6 +1594,33 @@ MonoBehaviour:
   MinDistance: 1
   MaxDistance: 5.8
   Length: 561
+--- !u!114 &5855064428227464839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb653cd98e289a4e8697a1af55201f2, type: 3}
+  m_Name: event:/SFX/Bottle
+  m_EditorClassIdentifier: 
+  Path: event:/SFX/Bottle
+  Guid:
+    Data1: 1247664934
+    Data2: 1083591291
+    Data3: -110884446
+    Data4: 674672068
+  Banks:
+  - {fileID: -2133510407158003039}
+  IsStream: 0
+  Is3D: 1
+  IsOneShot: 1
+  Parameters: []
+  MinDistance: 1
+  MaxDistance: 5.8
+  Length: 1541
 --- !u!114 &5998461438002153317
 MonoBehaviour:
   m_ObjectHideFlags: 0

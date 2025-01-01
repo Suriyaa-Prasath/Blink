@@ -12,7 +12,26 @@ public class HandPunch : MonoBehaviour
     public EventReference handpunch;
 
     private bool isLeftGripPressed = false; // Tracks the state of the left grip button
-    private bool isCanvasVisible = false; // Tracks the visibility of the canvas
+    private bool isCanvasVisible = false;  // Tracks the visibility of the canvas
+
+    private Vector3 lastPosition;          // For manual speed calculation
+    private float currentSpeed;            // Calculated speed of the hand
+    [SerializeField] private float minPunchSpeed = 2.0f; // Minimum speed for a valid punch
+
+    private void Start()
+    {
+        lastPosition = transform.position; // Initialize the last position
+    }
+
+    private void Update()
+    {
+        // Calculate speed manually as the distance moved per frame
+        currentSpeed = (transform.position - lastPosition).magnitude / Time.deltaTime;
+        lastPosition = transform.position; // Update last position
+
+        // Optional: Debug the calculated speed
+        //Debug.Log($"Current Hand Speed: {currentSpeed}");
+    }
 
     private void OnEnable()
     {
@@ -86,16 +105,43 @@ public class HandPunch : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Check if the left grip is pressed and the collider is tagged as "Enemy"
-        if (isLeftGripPressed && other.CompareTag("Enemy"))
+        // Check if the collider is tagged as "Enemy"
+        if (other.CompareTag("Enemy"))
         {
-            Enemy enemy = other.GetComponent<Enemy>();
-            if (enemy != null)
+            Debug.Log($"Collision detected with Enemy: {other.name}");
+
+            if (isLeftGripPressed)
             {
-                FMODUnity.RuntimeManager.PlayOneShot(handpunch, transform.position);
-                enemy.PunchDie();
-                Debug.Log("Enemy defeated!");
+                Debug.Log("Left grip is pressed!");
+
+                if (currentSpeed >= minPunchSpeed)
+                {
+                    Debug.Log("Punch landed with sufficient speed!");
+
+                    // Play sound and apply punch effect
+                    FMODUnity.RuntimeManager.PlayOneShot(handpunch, transform.position);
+
+                    Enemy enemy = other.GetComponent<Enemy>();
+                    if (enemy != null)
+                    {
+                        enemy.PunchDie();
+                        Debug.Log("Enemy defeated!");
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Enemy script is missing on the collided object!");
+                    }
+                }
+                else
+                {
+                    Debug.Log("Punch missed! Speed too low.");
+                }
+            }
+            else
+            {
+                Debug.LogWarning("Left grip not pressed. Punch ignored.");
             }
         }
+        
     }
 }

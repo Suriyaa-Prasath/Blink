@@ -119,6 +119,12 @@ public class PlayerHealth : MonoBehaviour
 
     void Die()
     {
+        if (isHeartbeatPlaying)
+        {
+            StopHeartbeatSound();
+        }
+
+        Debug.Log("Player has died. Loading next scene...");
         SceneManager.LoadScene(2);
     }
 
