@@ -12,7 +12,7 @@ public class BrokenBottle : MonoBehaviour
 
     void Start()
     {
-        Destroy(this.gameObject, timeBeforeDestroying);
+        //Destroy(this.gameObject, timeBeforeDestroying);
     }
     
     public void RandomVelocities()

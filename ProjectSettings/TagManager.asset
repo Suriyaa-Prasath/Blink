@@ -9,6 +9,7 @@ TagManager:
   - Obstacle
   - Ground
   - Bullet
+  - Bottle
   layers:
   - Default
   - TransparentFX
@@ -45,4 +46,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Image
+    uniqueID: 1437745857
     locked: 0

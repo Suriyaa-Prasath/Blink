@@ -1,19 +1,19 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class OutlineController : MonoBehaviour
 {
     public float activeDuration = 3f;
     public float inactiveDuration = 3f;
-    private Outline[] outlineObjects;
+    private List<Outline> outlineObjects = new List<Outline>();
 
-    // Bright color to interact with the Bloom effect
-    public Color glowColor = new Color(5f, 5f, 0f, 1f); // You can adjust this to your preference
+    public Color glowColor = new Color(5f, 5f, 0f, 1f);
     public Color normalColor = Color.white;
 
     void Start()
     {
-        outlineObjects = FindObjectsOfType<Outline>();
+        RefreshOutlineList(); // Initialize the list with all available Outline components
         StartCoroutine(ToggleOutline());
     }
 
@@ -21,26 +21,36 @@ public class OutlineController : MonoBehaviour
     {
         while (true)
         {
-            // Enable the glowing outline on all objects
-            SetOutlineState(true, glowColor);
+            // Refresh the list to remove destroyed objects before toggling
+            RefreshOutlineList();
 
-            // Wait for the active duration
+            SetOutlineState(true, glowColor);
             yield return new WaitForSeconds(activeDuration);
 
-            // Disable the outline or set to a normal outline color
             SetOutlineState(false, normalColor);
-
-            // Wait for the inactive duration
             yield return new WaitForSeconds(inactiveDuration);
         }
     }
 
     void SetOutlineState(bool state, Color outlineColor)
     {
+        // Remove destroyed objects before applying the state change
+        outlineObjects.RemoveAll(item => item == null);
+
         foreach (Outline outline in outlineObjects)
         {
-            outline.enabled = state;
-            outline.OutlineColor = outlineColor;
+            if (outline != null) // Additional safety check
+            {
+                outline.enabled = state;
+                outline.OutlineColor = outlineColor;
+            }
         }
+    }
+
+    void RefreshOutlineList()
+    {
+        // Get all active Outline components in the scene
+        outlineObjects.Clear();
+        outlineObjects.AddRange(FindObjectsOfType<Outline>());
     }
 }

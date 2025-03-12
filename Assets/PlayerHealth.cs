@@ -110,7 +110,7 @@ public class PlayerHealth : MonoBehaviour
         Debug.Log("Heartbeat Sound Started");
     }
 
-    void StopHeartbeatSound()
+    public void StopHeartbeatSound()
     {
         heartbeatEvent.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
         isHeartbeatPlaying = false;

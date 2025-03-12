@@ -238,7 +238,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Game Over
+  m_text: You Won
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: cb4516ac98eb5854ea4d7a8f558eb4da, type: 2}
   m_sharedMaterial: {fileID: 6988543560108305873, guid: cb4516ac98eb5854ea4d7a8f558eb4da,
@@ -457,8 +457,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 105.67
-  m_fontSizeBase: 105.67
+  m_fontSize: 106.24
+  m_fontSizeBase: 106.24
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2715,7 +2715,7 @@ MonoBehaviour:
       m_Name: Left Hand Turn
       m_Type: 0
       m_ExpectedControlType: Vector2
-      m_Id: d5f2a80e-5cd5-4479-8e55-6e6fbfc36db3
+      m_Id: 3927fd5d-1fef-4883-8cea-d6934542b0ee
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
@@ -2727,7 +2727,7 @@ MonoBehaviour:
       m_Name: Right Hand Turn
       m_Type: 0
       m_ExpectedControlType: Vector2
-      m_Id: f092cff0-2d62-446e-8914-da9e704ac6db
+      m_Id: e3429430-526c-4572-8718-2a4c9b694f40
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
