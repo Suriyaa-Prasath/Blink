@@ -195,7 +195,7 @@ public class SwordEnemyAI : MonoBehaviour
         animator.SetBool("isRunning", false);
     }
 
-    private void slashPlayer()
+    public void slashPlayer()
     {
         if (playerHealth != null && isPlayerInSightRange && isPlayerInAttackRange && isPlayerAlive)
         {
