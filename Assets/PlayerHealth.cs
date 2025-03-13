@@ -36,6 +36,7 @@ public class PlayerHealth : MonoBehaviour
         {
             ApplyGlowEffect();
         }
+        Debug.Log($"Current Health: {currentHealth}");
     }
 
     public void TakeDamage(float damageAmount)
@@ -125,7 +126,7 @@ public class PlayerHealth : MonoBehaviour
         }
 
         Debug.Log("Player has died. Loading next scene...");
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene("Game Over");
     }
 
     void OnDestroy()
