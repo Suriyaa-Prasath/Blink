@@ -36,7 +36,7 @@ public class PlayerHealth : MonoBehaviour
         {
             ApplyGlowEffect();
         }
-        Debug.Log($"Current Health: {currentHealth}");
+       // Debug.Log($"Current Health: {currentHealth}");
     }
 
     public void TakeDamage(float damageAmount)

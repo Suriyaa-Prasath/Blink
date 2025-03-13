@@ -214,7 +214,10 @@ public class SwordEnemyAI : MonoBehaviour
         Debug.Log("Player is dead");
         SceneManager.LoadScene("Game Over");
     }
-
+    private void OnCollisionEnter(Collision collision)
+    {
+        animator.SetTrigger("isStumbled");
+    }
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
